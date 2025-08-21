@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Votre image de piano sublimée – PyTune</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @media only screen and (max-width: 620px) {
+      .container { width: 100% !important; }
+      .inner { padding: 20px !important; }
+      .hero-img { max-width: 100% !important; height: auto !important; }
+      .btn { display: block !important; width: 100% !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background:#0f0f0f; font-family: Arial, Helvetica, sans-serif; color:#eaeaea;">
+  <span style="display:none;">Votre image de piano sublimée est prête ✨ – PyTune</span>
+
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="background:#0f0f0f;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="container" width="600" style="width:600px; max-width:600px; background:#121212; border:1px solid #1f1f1f; border-radius:12px; overflow:hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="padding:20px 24px; background:#161616; border-bottom:1px solid #222;">
+              <h1 style="margin:0; font-size:22px; color:#2dc34a;">🎹 PyTune</h1>
+            </td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td class="inner" style="padding:28px 28px 8px 28px;">
+              <p style="margin:0 0 12px; font-size:16px; line-height:1.5;">
+                Bonjour {{ (user_first or "!" )|trim }},
+              </p>
+              <p style="margin:0 0 16px; font-size:16px; line-height:1.6; color:#d6d6d6;">
+                🎁 L’équipe <strong>PyTune</strong> est heureuse de vous offrir votre image de piano <em>sublimée</em>.  
+                Nous avons optimisé la lumière, les textures et les reflets pour mettre en valeur votre instrument, tout en conservant l’authenticité de la photo originale.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Meta block -->
+          <tr>
+            <td class="inner" style="padding:0 28px 8px 28px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#171717; border:1px solid #242424; border-radius:10px;">
+                <tr>
+                  <td style="padding:14px 16px;">
+                    <p style="margin:0; font-size:14px; color:#9ddfa9;">
+                      Détails de votre piano :
+                    </p>
+                    <p style="margin:6px 0 0; font-size:14px; color:#dcdcdc;">
+                      {% set meta = [] %}
+                      {% if brand %}{% set _ = meta.append("Marque : <strong>" ~ brand ~ "</strong>") %}{% endif %}
+                      {% if model %}{% set _ = meta.append("Modèle : <strong>" ~ model ~ "</strong>") %}{% endif %}
+                      {% if city or country %}
+                        {% set loc = (city or '') ~ (', ' if city and country else '') ~ (country or '') %}
+                        {% set _ = meta.append("Lieu : <strong>" ~ loc ~ "</strong>") %}
+                      {% endif %}
+                      {{ meta|join(" &nbsp;•&nbsp; ")|safe }}
+                    </p>
+                    {% if emotional %}
+                      <p style="margin:10px 0 0; font-size:13px; color:#bdbdbd;">
+                        {% if emotional.sheet_title or emotional.sheet_level or emotional.sheet_style %}
+                          Partitions détectées :
+                          <em>
+                            {{ emotional.sheet_title or "—" }}
+                            {% if emotional.sheet_level %} — {{ emotional.sheet_level }}{% endif %}
+                            {% if emotional.sheet_style %} — {{ emotional.sheet_style }}{% endif %}
+                          </em><br>
+                        {% endif %}
+                        {% if emotional.inferred_scene %}
+                          Ambiance : <em>{{ emotional.inferred_scene }}</em><br>
+                        {% endif %}
+                        {% if emotional.estimated_value_eur %}
+                          Valeur estimée : <em>{{ emotional.estimated_value_eur }} €</em>
+                          {% if emotional.value_confidence %} (confiance {{ emotional.value_confidence }}%) {% endif %}
+                          <br>
+                        {% endif %}
+                      </p>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Hero image -->
+          {% if image_url %}
+          <tr>
+            <td class="inner" style="padding:16px 28px;">
+              <a href="{{ image_url }}" target="_blank" style="text-decoration:none; border:0;">
+                <img src="{{ image_url }}" alt="Votre piano sublimé par PyTune" class="hero-img"
+                     style="display:block; width:100%; max-width:544px; height:auto; border-radius:10px; border:1px solid #242424;">
+              </a>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- CTA -->
+          <tr>
+            <td class="inner" style="padding:0 28px 8px 28px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="left">
+                <tr>
+                  <td align="center" bgcolor="#2dc34a" style="border-radius:8px;">
+                    <a href="{{ image_url }}" target="_blank"
+                       class="btn"
+                       style="display:inline-block; padding:12px 18px; font-weight:bold; color:#0b2a12; background:#2dc34a; text-decoration:none; border-radius:8px;">
+                      Voir l’image en grand
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td class="inner" style="padding:24px 28px 28px 28px; color:#9b9b9b; font-size:12px;">
+              <p style="margin:0 0 10px;">
+                Astuce : répondez directement à cet email pour demander un autre style d’image  
+                (ex. “plus lumineux”, “teinte plus froide”, “style {{ (emotional.sheet_style or 'nocturne romantique')|lower }}”, etc.).
+              </p>
+              <p style="margin:0; color:#7a7a7a;">
+                Session #: {{ session_id }}
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+        <!-- legal -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="container" style="width:600px; max-width:600px; margin-top:12px;">
+          <tr>
+            <td align="center" style="font-size:11px; color:#6e6e6e;">
+              © {{ (now() if now else '') }} PyTune — Tous droits réservés.
+            </td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
