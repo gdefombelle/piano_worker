@@ -28,7 +28,7 @@ minio = "^7.2.15"
 
 # internes (DEV, editable)
 simple-logger = { path = "../../packages/simple_logger", develop = true }
-pytune-helpers = { path = "../../packages/pytune_helpers", develop = true }
+pytune-helpers-messaging = { path = "../../packages/pytune_helpers_messaging", develop = true }
 pytune-configuration = { path = "../../packages/pytune_configuration", develop = true }
 pytune-llm = { path = "../../packages/pytune_llm", develop = true }
 pytune-data =  { path = "../../packages/pytune_data", develop = true }
