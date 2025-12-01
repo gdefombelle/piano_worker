@@ -2,7 +2,7 @@
 name = "piano_worker"
 version = "0.0.0"
 description = "PyTune worker for piano tasks"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
 
 [tool.poetry]
 name = "piano_worker"
@@ -14,7 +14,7 @@ readme = "README.md"
 packages = [{ include = "worker" }]   # code dans workers/piano_worker/worker
 
 [tool.poetry.dependencies]
-python = ">=3.12,<4.0"
+python = ">=3.12,<3.13"
 
 # Celery stack
 celery = "^5.4.0"
