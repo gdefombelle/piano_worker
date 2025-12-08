@@ -5,6 +5,7 @@ import traceback
 from os import getenv
 from pathlib import Path
 from typing import Optional, Dict, Any
+from pytune_helpers_messaging.email_helper import EmailService
 
 # --- (débogage) : décommente ces 3 lignes si tu veux forcer l'arrêt à l'entrée de la tâche
 # import debugpy  # type: ignore
@@ -27,6 +28,7 @@ from pytune_data.db import init as init_db
 from pytune_data.models import User
 from pytune_piano_i2i.beautify_service import run_piano_beautify_tasks
 from simple_logger.logger import SimpleLogger, get_logger
+from typing import Any, Coroutine, cast
 
 logger: SimpleLogger = get_logger("pytune_pianobeautify_worker")
 
@@ -93,7 +95,7 @@ def beautify_piano(
             def _email_renderer(ctx: dict) -> str:
                 return render_email(email_template_name, ctx)
 
-            from pytune_helpers.email_helper import EmailService
+            
             email_service = EmailService()
 
             def _send_email(to_email: str, subject: str, body: str, is_html: bool):

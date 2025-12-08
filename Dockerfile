@@ -1,19 +1,49 @@
-FROM python:3.12.3-slim
+# ===============================
+# Étape 1 : Build avec UV
+# ===============================
+FROM --platform=linux/amd64 python:3.12-slim AS builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip install uv
 
 WORKDIR /app
 
-# deps système minimales + Poetry
-RUN apt-get update \
- && apt-get install -y --no-install-recommends gcc libpq-dev \
- && pip install --no-cache-dir poetry \
- && rm -rf /var/lib/apt/lists/*
+# 👉 Copie workspace root
+COPY pyproject.toml uv.lock ./
 
-# Copie d'abord les manifests (cache build)
-COPY pyproject.toml poetry.lock README.md ./
-RUN poetry install --without dev --no-root
+# 👉 Copie tout le repo (packages + workers + services)
+COPY src ./src
 
-# Puis le code
-COPY . .
+# 👉 Aller dans CE worker
+WORKDIR /app/src/workers/piano_worker
 
-# CMD par défaut (sera écrasé par tes args dans docker run)
-CMD ["poetry","run","celery","-A","worker.piano_tasks:app","worker","--loglevel=info"]
+# Installer les deps dans /app/.venv
+RUN uv sync --no-dev
+
+
+# ===============================
+# Étape 2 : Image finale
+# ===============================
+FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 👉 root working directory
+WORKDIR /app
+
+# Copier l’environnement entier construit
+COPY --from=builder /app /app
+
+# 👉 On exécute Celery DANS le worker
+WORKDIR /app/src/workers/piano_worker
+
+EXPOSE 8010
+
+# 👉 Lancement via la venv du workspace
+CMD ["/app/.venv/bin/celery", "-A", "worker.piano_tasks", "worker", "--loglevel=info"]
