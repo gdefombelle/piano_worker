@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Your Piano Image</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body style="margin:0; padding:0; background:#0f0f0f; font-family:Arial, Helvetica, sans-serif; color:#eaeaea;">
+<span style="display:none;">Your piano image is ready ✨</span>
+
+<table width="100%" align="center" cellpadding="0" cellspacing="0" role="presentation" style="background:#0f0f0f;">
+<tr>
+<td align="center" style="padding:24px 12px;">
+
+  <table width="600" style="max-width:600px; background:#121212; border-radius:12px; border:1px solid #1f1f1f;">
+    
+    <!-- Header -->
+    <tr>
+      <td style="padding:20px 24px; border-bottom:1px solid #222;">
+        <h2 style="margin:0; font-size:20px; color:#eaeaea;">
+          Your piano — visual preview
+        </h2>
+      </td>
+    </tr>
+
+    <!-- Intro -->
+    <tr>
+      <td style="padding:24px;">
+        <p style="margin:0 0 12px; font-size:15px; line-height:1.6;">
+          Hello{{ recipient_name and " " ~ recipient_name or "" }},
+        </p>
+
+        <p style="margin:0 0 16px; font-size:15px; line-height:1.6; color:#d6d6d6;">
+          Following your piano identification, we are pleased to share a
+          <strong>visual rendering</strong> of your instrument.
+        </p>
+
+        <p style="margin:0; font-size:14px; color:#bdbdbd;">
+          This image was created to give you a refined and natural impression of your piano,
+          while staying faithful to its real appearance.
+        </p>
+      </td>
+    </tr>
+
+    <!-- Piano meta -->
+    <tr>
+      <td style="padding:0 24px 16px;">
+        <div style="background:#171717; border:1px solid #242424; border-radius:10px; padding:14px;">
+          <p style="margin:0; font-size:14px; color:#9ddfa9;">
+            Instrument details
+          </p>
+          <p style="margin:6px 0 0; font-size:14px; color:#dcdcdc;">
+            {% set meta = [] %}
+            {% if brand %}{% set _ = meta.append("Brand: <strong>" ~ brand ~ "</strong>") %}{% endif %}
+            {% if model %}{% set _ = meta.append("Model: <strong>" ~ model ~ "</strong>") %}{% endif %}
+            {% if city or country %}
+              {% set loc = (city or '') ~ (', ' if city and country else '') ~ (country or '') %}
+              {% set _ = meta.append("Location: <strong>" ~ loc ~ "</strong>") %}{% endif %}
+            {{ meta|join(" &nbsp;•&nbsp; ")|safe }}
+          </p>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Image -->
+    {% if image_url %}
+    <tr>
+      <td style="padding:16px 24px;">
+        <a href="{{ image_url }}" target="_blank">
+          <img src="{{ image_url }}" alt="Piano image"
+               style="display:block; width:100%; border-radius:10px; border:1px solid #242424;">
+        </a>
+      </td>
+    </tr>
+    {% endif %}
+
+    <!-- CTA -->
+    <tr>
+      <td style="padding:0 24px 16px;">
+        <a href="{{ image_url }}" target="_blank"
+           style="display:inline-block; padding:12px 18px; background:#2dc34a;
+                  color:#0b2a12; font-weight:bold; text-decoration:none; border-radius:8px;">
+          View image
+        </a>
+      </td>
+    </tr>
+
+    <!-- Signature -->
+    <tr>
+      <td style="padding:20px 24px; font-size:13px; color:#9b9b9b;">
+        <p style="margin:0;">
+          Best regards,<br>
+          {{ sender_name or "Your piano professional" }}
+        </p>
+
+        <p style="margin-top:10px; font-size:11px; color:#6e6e6e;">
+          Image prepared using PyTune
+        </p>
+      </td>
+    </tr>
+
+  </table>
+
+</td>
+</tr>
+</table>
+</body>
+</html>

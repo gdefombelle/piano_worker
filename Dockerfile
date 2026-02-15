@@ -46,4 +46,4 @@ WORKDIR /app/src/workers/piano_worker
 EXPOSE 8010
 
 # 👉 Lancement via la venv du workspace
-CMD ["/app/.venv/bin/celery", "-A", "worker.piano_tasks", "worker", "--loglevel=info"]
+CMD ["/app/.venv/bin/celery","-A", "worker.piano_tasks","worker","-Q", "i2i_tasks_queue","--loglevel=info", "-P", "solo"]

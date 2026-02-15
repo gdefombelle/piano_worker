@@ -19,7 +19,6 @@ dependencies = [
     "pytune_configuration",
     "simple_logger",
     "pytune_data",
-    "pytune_helpers_messaging",
     "pytune_llm",
     "pytune_piano_i2i",
     "pytune_chat",
